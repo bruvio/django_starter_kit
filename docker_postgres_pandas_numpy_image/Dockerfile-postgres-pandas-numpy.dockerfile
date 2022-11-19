@@ -17,19 +17,14 @@ RUN poetry config virtualenvs.create false
 
 
 
+RUN apk update && \
+ 	apk add postgresql-libs libstdc++ && \
+ 	apk add --virtual .build-deps build-base musl-dev postgresql-dev && \
+    pip install --no-cache-dir numpy && \
+    pip install --no-cache-dir pandas && \
+    pip install --no-cache-dir psycopg2-binary && \
+    apk --purge del .build-deps
 
-
-
-RUN apk add --update --no-cache postgresql-client jpeg-dev
-RUN apk add --update --no-cache --virtual .tmp-build-deps \
-    gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev
-RUN apk add g++ postgresql-dev gcc python3-dev libffi-dev musl-dev zlib-dev jpeg-dev
-RUN apk add --no-cache bash && apk upgrade expat \
-    && rm -rf /var/cache/apk/*
-
-RUN apk del .tmp-build-deps
-
-RUN pip install --upgrade pip && pip install --no-cache-dir numpy pandas
 
 ARG GIT_HASH
 ENV GIT_HASH=${GIT_HASH:-dev}
