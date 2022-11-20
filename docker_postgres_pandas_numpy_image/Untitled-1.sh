@@ -2,7 +2,7 @@
 
 export IMAGE_NAME=alpine-postgres-pandas-numpy
 
-export IMAGE_VERSION=py39-poetry-lowspace
+export IMAGE_VERSION=py3-11-poetry-lowspace
 export FULLY_QUALIFIED_IMAGE_NAME=bruvio/$IMAGE_NAME
 
 
