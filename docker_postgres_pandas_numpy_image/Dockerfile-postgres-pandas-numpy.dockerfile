@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.11-alpine
 LABEL maintainer="bruno.viola@pm.me"
 
 
@@ -18,12 +18,21 @@ RUN poetry config virtualenvs.create false
 
 
 RUN apk update && \
- 	apk add postgresql-libs libstdc++ && \
- 	apk add --virtual .build-deps build-base musl-dev postgresql-dev && \
+ 	apk add --no-cache postgresql-libs libstdc++ && \
+ 	apk add --virtual --no-cache .build-deps build-base uwsgi-python3 musl-dev postgresql-dev && \
     pip install --no-cache-dir numpy && \
     pip install --no-cache-dir pandas && \
     pip install --no-cache-dir psycopg2-binary && \
     apk --purge del .build-deps
+
+
+# RUN apk update && \
+#  	apk add postgresql-libs libstdc++ && \
+#  	apk add --virtual .build-deps build-base musl-dev postgresql-dev && \
+#     pip install --no-cache-dir numpy && \
+#     pip install --no-cache-dir pandas && \
+#     pip install --no-cache-dir psycopg2-binary && \
+#     apk --purge del .build-deps
 
 
 ARG GIT_HASH
