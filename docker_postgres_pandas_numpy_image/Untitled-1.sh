@@ -11,6 +11,6 @@ docker build -f Dockerfile-postgres-pandas-numpy.dockerfile --no-cache -t $IMAGE
 
 docker tag $IMAGE_NAME:$IMAGE_VERSION $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
 
-docker login
-docker push $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
+# docker login
+# docker push $FULLY_QUALIFIED_IMAGE_NAME:$IMAGE_VERSION
 
