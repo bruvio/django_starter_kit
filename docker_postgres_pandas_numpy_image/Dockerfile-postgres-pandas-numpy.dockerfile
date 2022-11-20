@@ -19,11 +19,12 @@ RUN poetry config virtualenvs.create false
 
 
 RUN apk update && \
- 	apk add --virtual .build-deps build-base uwsgi-python3 musl-dev postgresql-dev postgresql-libs libstdc++ && \
-    apk add g++ gcc libc-dev linux-headers && \
-    # pip install --no-cache-dir numpy && \
-    # pip install --no-cache-dir pandas && \
+ 	apk add --virtual .build-deps build-base g++ gcc libc-dev linux-headers uwsgi-python3 musl-dev postgresql-dev postgresql-libs libstdc++ && \
+    # apk add g++ gcc libc-dev linux-headers && \
+    pip install --no-cache-dir numpy && \
+    pip install --no-cache-dir pandas && \
     pip install --no-cache-dir psycopg2-binary && \
+    pip install --no-cache-dir uwsgi && \
     apk --purge del .build-deps
 # RUN apk update && \
 #  	apk add --virtual .build-deps g++ gcc libc-dev linux-headers build-base uwsgi-python3 musl-dev postgresql-dev postgresql-libs libstdc++ && \
