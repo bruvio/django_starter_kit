@@ -19,8 +19,9 @@ RUN poetry config virtualenvs.create false
 
 
 RUN apk update && \
- 	apk add --virtual .build-deps build-base g++ gcc libc-dev linux-headers uwsgi-python3 musl-dev postgresql-dev postgresql-libs libstdc++ && \
-    # apk add g++ gcc libc-dev linux-headers && \
+    apk add --virtual .build-deps build-base g++ gcc libc-dev linux-headers uwsgi-python3 musl-dev postgresql-dev postgresql-libs && \
+    apk add --no-cache libc-dev linux-headers libstdc++ && \
+    apk --no-cache add musl-dev g++  python3-dev openblas-dev && \
     pip install --no-cache-dir numpy && \
     pip install --no-cache-dir pandas && \
     pip install --no-cache-dir psycopg2-binary && \
@@ -41,6 +42,8 @@ RUN apk update && \
 #     pip install --no-cache-dir psycopg2-binary && \
 #     apk --purge del .build-deps
 
+RUN python -c "import pandas as pd; print('\n \n Pandas version is ',pd.__version__)"
+RUN python -c "import numpy as np; print('\n \n Numpy version is ',np.__version__)"
 
 ARG GIT_HASH
 ENV GIT_HASH=${GIT_HASH:-dev}
