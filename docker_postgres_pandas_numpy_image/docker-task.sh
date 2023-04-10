@@ -2,7 +2,7 @@
 # Helper scripts for working with Docker image and container.
 # Variables
 # ECR_proxy_repo='traffic-api-proxy'
-ECR_app_repo="personal_portfolio"
+ECR_app_repo=$2
 IMAGE_NAME=$ECR_app_repo
 CONTAINER_NAME=$IMAGE_NAME
 AWS_REGION="us-east-1"
@@ -55,6 +55,14 @@ createRepo () {
     aws ecr create-repository --repository-name $IMAGE_NAME
     echo Created ECR repository: $IMAGE_NAME.
 }
+listImages(){
+
+REPO_LIST=$(aws ecr describe-repositories --query "repositories[].repositoryName" --output text --region $AWS_REGION);
+for repo in $REPO_LIST; do
+    echo "list image for $repo"
+        aws ecr list-images --repository-name $repo --region $AWS_REGION
+done
+}
 
 # Shows the usage for the script.
 showUsage () {
@@ -67,6 +75,7 @@ showUsage () {
     echo "    buildrun: Builds a Docker image and runs the container."
     echo "    createrepo: Creates new ECR repo called '$IMAGE_NAME'"
     echo "    push: Pushs the image '$IMAGE_NAME' to an image repository"
+    echo "    listimages: list images in aws ECR"
     echo ""
     echo "Example:"
     echo "    ./docker-task.sh build"
@@ -99,6 +108,9 @@ else
              buildImage
              runContainer
              ;;
+      "listimages")
+            listImages
+            ;;
       *)
              showUsage
              ;;
